@@ -3,7 +3,7 @@ const sendEmail = require('../utils/sendEmail');
 
 exports.registerReservation = async (req, res) => {
 
-  const { firstName, lastName, location, contactNumber, customerEmail, checkIn, checkOut, reservatedRooms, comment } = req.body
+  const { firstName, lastName, location, contactNumber, customerEmail, checkIn, checkOut, reservatedRooms, comment, status } = req.body
 
   try {
     const reservation = await Reservation.create({
@@ -15,7 +15,8 @@ exports.registerReservation = async (req, res) => {
       checkIn,
       checkOut,
       reservatedRooms,
-      comment
+      comment,
+      status
     })
 
     res.json({
@@ -27,6 +28,25 @@ exports.registerReservation = async (req, res) => {
     res.json({
       success: false,
       message: 'error at creating reservation in DB'
+    })
+  }
+}
+
+exports.getAllReservation = async (req, res) => {
+  try {
+    const reservations = await Reservation.find({})
+
+    console.log(reservations)
+
+    res.json({
+      success: true,
+      reservations
+    })
+  } catch (e) {
+    console.log(e)
+    res.json({
+      success: false,
+      message: 'error at getting reservations in DB'
     })
   }
 }

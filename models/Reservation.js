@@ -19,6 +19,7 @@ const ReservationSchema = new mongoose.Schema({
     },
   ],
   comment: String,
+  status: String,
 }, {timestamps: true})
 
 const Reservation = mongoose.model('Reservation', ReservationSchema);
