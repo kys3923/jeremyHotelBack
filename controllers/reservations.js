@@ -36,8 +36,6 @@ exports.getAllReservation = async (req, res) => {
   try {
     const reservations = await Reservation.find({})
 
-    console.log(reservations)
-
     res.json({
       success: true,
       reservations
@@ -47,6 +45,84 @@ exports.getAllReservation = async (req, res) => {
     res.json({
       success: false,
       message: 'error at getting reservations in DB'
+    })
+  }
+}
+
+exports.denyReservation = async (req, res) => {
+  let reservationId = req.params.id;
+
+  try {
+    const reservation = await Reservation.findByIdAndUpdate(reservationId, {
+      status: 'denied'
+    })
+
+    reservation.save();
+
+    // send email to customer
+
+    res.json({
+      success: true,
+      reservation
+    })
+
+  } catch (e) {
+    console.log(e)
+    res.json({
+      success: false,
+      message: 'error found at connecting to DB'
+    })
+  }
+}
+
+exports.confirmReservation = async (req, res) => {
+  let reservationId = req.params.id;
+
+  try {
+    const reservation = await Reservation.findByIdAndUpdate(reservationId, {
+      status: 'confirmed'
+    })
+
+    reservation.save();
+
+    // send email to customer
+
+    res.json({
+      success: true,
+      reservation
+    })
+
+  } catch (e) {
+    console.log(e)
+    res.json({
+      success: false,
+      message: 'error found at connecting to DB'
+    })
+  }
+}
+
+exports.completeReservation = async (req, res) => {
+  let reservationId = req.params.id;
+
+  try {
+    const reservation = await Reservation.findByIdAndUpdate(reservationId, {
+      status: 'completed'
+    })
+
+    reservation.save();
+
+    // send email to customer
+
+    res.json({
+      success: true,
+      reservation
+    })
+
+  } catch (e) {
+    console.log(e)
+    res.json({
+      success: false,
+      message: 'error found at connecting to DB'
     })
   }
 }
